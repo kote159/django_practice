@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Дашборд{% endblock %}
+{% block content %}
+<h1>Сводные показатели</h1>
+<div class="stats">
+  <div class="stat-card"><div class="num">{{ total_units }}</div><div class="label">Всего единиц</div></div>
+  <div class="stat-card"><div class="num">{{ available }}</div><div class="label">Доступно</div></div>
+  <div class="stat-card"><div class="num">{{ rented }}</div><div class="label">Выдано</div></div>
+  <div class="stat-card"><div class="num">{{ in_repair }}</div><div class="label">В ремонте ({{ repair_share }}%)</div></div>
+  <div class="stat-card"><div class="num">{{ active_rentals }}</div><div class="label">Активных аренд</div></div>
+  <div class="stat-card"><div class="num">{{ total_fines }} ₽</div><div class="label">Сумма штрафов</div></div>
+</div>
+
+<h2>Аренды по месяцам</h2>
+<div class="card">
+  {% for m in monthly %}
+    <p>{{ m.month|date:"M Y" }}: <strong>{{ m.cnt }}</strong></p>
+  {% empty %}
+    <p>Данных пока мало.</p>
+  {% endfor %}
+</div>
+{% endblock %}

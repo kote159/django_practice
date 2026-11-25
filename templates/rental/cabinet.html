@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+<h1>Личный кабинет</h1>
+<p>{{ client }} · {{ client.phone }}</p>
+
+<h2>Мои аренды</h2>
+{% if rentals %}
+<table class="table">
+  <tr><th>#</th><th>Инвентарь</th><th>Даты</th><th>Сумма</th><th>Статус</th></tr>
+  {% for r in rentals %}
+  <tr>
+    <td>{{ r.id }}</td>
+    <td>{{ r.unit.inventory.name }} ({{ r.unit.inventory_number }})</td>
+    <td>{{ r.start_date }} — {{ r.planned_end_date }}</td>
+    <td>{{ r.total_price }} ₽</td>
+    <td>{{ r.get_status_display }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>У вас пока нет аренд. <a href="{% url 'catalog' %}">Перейти в каталог</a></p>
+{% endif %}
+{% endblock %}

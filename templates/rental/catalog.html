@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Каталог — ПрокатСпорт{% endblock %}
+{% block content %}
+<h1>Каталог инвентаря</h1>
+
+<form method="get" class="filters">
+  <div>
+    <label>Поиск</label>
+    <input type="text" name="q" value="{{ form.q.value|default:'' }}" placeholder="Название...">
+  </div>
+  <div>
+    <label>Категория</label>
+    {{ form.category }}
+  </div>
+  <div>
+    <label>Статус единицы</label>
+    {{ form.status }}
+  </div>
+  <div>
+    <label>Сортировка</label>
+    {{ form.sort }}
+  </div>
+  <button type="submit" class="btn">Применить</button>
+</form>
+
+<div class="grid">
+  {% for item in page_obj %}
+  <div class="card">
+    {% if item.image %}
+  <img src="{{ item.image.url }}" alt="{{ item.name }}">
+{% endif %}
+    <h3><a href="{% url 'inventory_detail' item.pk %}">{{ item.name }}</a></h3>
+    <p class="price">{{ item.daily_price }} ₽ / сутки</p>
+    <p style="color:var(--muted);font-size:0.85rem;">{{ item.category.name }} · {{ item.manufacturer }}</p>
+    <a href="{% url 'inventory_detail' item.pk %}" class="btn btn-sm" style="margin-top:8px;">Подробнее</a>
+  </div>
+  {% empty %}
+  <p>Ничего не найдено.</p>
+  {% endfor %}
+</div>
+
+{% if page_obj.has_other_pages %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}&{{ query_string }}">←</a>
+  {% endif %}
+  <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}&{{ query_string }}">→</a>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}

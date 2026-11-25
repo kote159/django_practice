@@ -1,0 +1,19 @@
+# Виртуальное окружение
+venv/
+env/
+.venv/
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+
+# Локальная база данных и медиафайлы
+db.sqlite3
+/media
+
+# Переменные окружения (секретные ключи)
+.env
+
+# Настройки IDE (VS Code, PyCharm)
+.vscode/
+.idea/

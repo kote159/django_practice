@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Заявка на аренду{% endblock %}
+{% block content %}
+<h1>Заявка на аренду</h1>
+<p><strong>{{ unit.inventory.name }}</strong> · {{ unit.inventory_number }} · {{ unit.size }}</p>
+<p>Цена: {{ unit.inventory.daily_price }} ₽ / сутки</p>
+
+<form method="post" style="max-width:400px;margin-top:20px;">
+  {% csrf_token %}
+  <div class="form-group">
+    <label>Дата начала</label>
+    <input type="date" name="start_date" required>
+  </div>
+  <div class="form-group">
+    <label>Дата окончания</label>
+    <input type="date" name="planned_end_date" required>
+  </div>
+  <button type="submit" class="btn">Оформить аренду</button>
+</form>
+{% endblock %}

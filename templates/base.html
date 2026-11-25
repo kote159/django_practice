@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ПрокатСпорт{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="header">
+  <div class="container header-inner">
+    <a href="{% url 'home' %}" class="logo">ПрокатСпорт</a>
+    <nav class="nav">
+      <a href="{% url 'catalog' %}">Каталог</a>
+      {% if user.is_authenticated %}
+        {% if user.is_staff %}
+          <a href="{% url 'staff_rentals' %}">Выдачи</a>
+          <a href="{% url 'staff_create_rental' %}">Оформить</a>
+          <a href="{% url 'dashboard' %}">Дашборд</a>
+        {% else %}
+          <a href="{% url 'cabinet' %}">Личный кабинет</a>
+        {% endif %}
+        <span class="user">{{ user.username }}</span>
+        <form action="{% url 'logout' %}" method="post" class="logout-form">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-outline">Выход</button>
+</form>
+      {% else %}
+        <a href="{% url 'login' %}">Вход</a>
+        <a href="{% url 'register' %}" class="btn">Регистрация</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <div class="container">© 2026 ПрокатСпорт — учебный проект</div>
+</footer>
+</body>
+</html>

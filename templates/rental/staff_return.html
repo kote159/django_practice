@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Возврат #{{ rental.id }}{% endblock %}
+{% block content %}
+<h1>Возврат оборудования</h1>
+<div class="card" style="margin-bottom:20px;">
+  <p><strong>Клиент:</strong> {{ rental.client }}</p>
+  <p><strong>Единица:</strong> {{ rental.unit }}</p>
+  <p><strong>Период:</strong> {{ rental.start_date }} — {{ rental.planned_end_date }}</p>
+</div>
+
+<form method="post" style="max-width:480px;">
+  {% csrf_token %}
+  {% for field in form %}
+  <div class="form-group">
+    <label>{{ field.label }}</label>
+    {{ field }}
+  </div>
+  {% endfor %}
+  <p style="color:var(--muted);font-size:0.9rem;margin-bottom:12px;">
+    Если состояние «не в норме» — выберите категорию повреждения. Штраф посчитается автоматически, единица уйдёт в статус «ремонт».
+  </p>
+  <button type="submit" class="btn">Завершить возврат</button>
+</form>
+{% endblock %}

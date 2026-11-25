@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Главная — ПрокатСпорт{% endblock %}
+{% block content %}
+<section style="background:var(--primary);color:#fff;padding:40px 24px;border-radius:12px;margin-bottom:32px;">
+  <h1 style="color:#fff;margin-bottom:8px;">Арендуйте спортивный инвентарь</h1>
+  <p style="opacity:.9;margin-bottom:16px;">Лыжи, сноуборды, велосипеды и другое оборудование</p>
+  <a href="{% url 'catalog' %}" class="btn btn-accent">Смотреть каталог</a>
+</section>
+
+<h2>Категории</h2>
+<div class="grid">
+  {% for c in categories %}
+  <a href="{% url 'catalog' %}?category={{ c.id }}" class="card" style="text-decoration:none;color:inherit;">
+    <h3>{{ c.name }}</h3>
+    <p style="color:var(--muted);font-size:0.9rem;">{{ c.description|truncatewords:12 }}</p>
+  </a>
+  {% empty %}
+  <p>Категории пока не добавлены.</p>
+  {% endfor %}
+</div>
+
+<h2>Популярное</h2>
+<div class="grid">
+  {% for item in popular %}
+  <div class="card">
+    {% if item.image %}
+  <img src="{{ item.image.url }}" alt="{{ item.name }}">
+{% endif %}
+    <h3><a href="{% url 'inventory_detail' item.pk %}">{{ item.name }}</a></h3>
+    <p class="price">{{ item.daily_price }} ₽ / сутки</p>
+    <p style="color:var(--muted);font-size:0.85rem;">{{ item.category.name }}</p>
+  </div>
+  {% empty %}
+  <p>Инвентарь пока не добавлен. Зайдите в админку.</p>
+  {% endfor %}
+</div>
+{% endblock %}
